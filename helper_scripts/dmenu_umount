@@ -1,0 +1,10 @@
+#!/bin/sh
+
+unmountable=$(lsblk -lp | grep "part /media/" | awk '{print $1, "at", $7, " (" $4 ")"}')
+[ "$unmountable" = "" ] && exit 1
+echo "$unmountable"
+
+chosen=$(echo "$unmountable" | dmenu -i -p "Unmount which drive?" | awk '{print $1}')
+[ "$chosen" = "" ] && exit 1
+
+sudo -A umount "$chosen" && exit 0

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+choices="Shutdown\nReboot"
+chosen=$(echo "$choices" | dmenu -i)
+
+case "$chosen" in
+    Shutdown) shutdown now;;
+    Reboot) shutdown -r now;;
+esac

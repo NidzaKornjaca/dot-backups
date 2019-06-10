@@ -1,0 +1,13 @@
+#!/bin/sh
+
+mountable=$(lsblk -lp | grep "part $" | awk '{print $1, "(" $4 ")"}')
+[ "$mountable" = "" ] && exit 1
+
+chosen=$(echo "$mountable" | dmenu -i -p "Mount which drive?" | awk '{print $1}')
+[ "$chosen" = "" ] && exit 1
+
+dirs=$(find /media -type d -mindepth 1 -maxdepth 1 2>/dev/null)
+mountpoint=$(echo "$dirs" | dmenu -i -p "Select mountpoint")
+[ "$mountpoint" = "" ] && exit 1
+
+sudo -A mount "$chosen" "$mountpoint" && exit 0

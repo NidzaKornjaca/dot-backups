@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -f ~/.quicksites_list ]; then
+    choices=$(cat ~/.quicksites_list)
+else
+    choices="deezer.com\ngmail.com"
+fi
+
+choice=$(echo "$choices" | dmenu -i)
+
+if [ "$choice" ] && [ "$choice" != "None" ]; then
+    firefox "$choice"
+fi
